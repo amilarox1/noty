@@ -83,7 +83,12 @@ if (typeof Object.create !== 'function') {
 
 			var self = this;
 
-			$(self.options.layout.container.selector).append(self.$bar);
+            if(self.options.custom){
+			    $(self.options.custom.selector).children(self.options.layout.container.selector).append(self.$bar);
+            }
+            else{
+                $(self.options.layout.container.selector).append(self.$bar);
+            }
 
 			self.options.theme.style.apply(self);
 
@@ -91,7 +96,12 @@ if (typeof Object.create !== 'function') {
 
 			self.$bar.addClass(self.options.layout.addClass);
 
-			self.options.layout.container.style.apply($(self.options.layout.container.selector));
+            if(self.options.custom){
+            	self.options.layout.container.style.apply($(self.options.custom.selector).children(self.options.layout.container.selector));
+            }
+            else{
+                self.options.layout.container.style.apply($(self.options.layout.container.selector));
+            }
 
 			self.options.theme.callback.onShow.apply(this);
 
@@ -122,7 +132,8 @@ if (typeof Object.create !== 'function') {
 			// If noty is have a timeout option
 			if (self.options.timeout)
 				self.$bar.delay(self.options.timeout).promise().done(function() { self.close(); });
-
+            console.log('this');
+            console.log(this);
 			return this;
 
 		}, // end show
@@ -161,7 +172,7 @@ if (typeof Object.create !== 'function') {
 
 					// Layout Cleaning
 					$.notyRenderer.setLayoutCountFor(self, -1);
-					if ($.notyRenderer.getLayoutCountFor(self) == 0) $(self.options.layout.container.selector).remove();
+					if ($.notyRenderer.getLayoutCountFor(self) == 0) $(notification.options.custom.selector).children(self.options.layout.container.selector).remove();
 
 					self.$bar.remove();
 					self.$bar = null;
@@ -208,6 +219,8 @@ if (typeof Object.create !== 'function') {
 
 		// Renderer creates a new noty
 		var notification = Object.create(NotyObject).init(options);
+        console.log('notification');
+        console.log(notification);
 
 		(notification.options.force) ? $.noty.queue.unshift(notification) : $.noty.queue.push(notification); 
 
@@ -243,7 +256,17 @@ if (typeof Object.create !== 'function') {
 		}
 
 		// Where is the container?
-		if ($(notification.options.layout.container.selector).length == 0) {
+        var length = -1;
+        if(notification.options.custom){
+            length = $(notification.options.custom.selector).children(notification.options.layout.container.selector).length
+        }
+        else{
+            length = $(notification.options.layout.container.selector).length;
+        }
+
+		if (length == 0) {
+            console.log('custom-container');
+            console.log(notification.options.custom);
 			if (notification.options.custom) {
 				notification.options.custom.append($(notification.options.layout.container.object).addClass('i-am-new'));
 			} else {
@@ -282,6 +305,7 @@ if (typeof Object.create !== 'function') {
 	// This is for custom container
 	$.fn.noty = function(options) {
 		options.custom = $(this);
+        console.log('custom init ' + options.custom.attr('id'));
 		return $.notyRenderer.init(options);
 	};
 	 

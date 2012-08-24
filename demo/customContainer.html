@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -29,6 +29,14 @@
 
   	<div id="customContainer" style="width: 400px; margin-left: 125px; margin-top: 100px; border: 1px solid #ccc; padding: 10px">
       <p><strong>Hi!</strong> I'm a custom container</p>
+    </div>
+  
+  </div>
+
+  <div class="container">
+
+  	<div id="customContainerTwo" style="width: 400px; margin-left: 125px; margin-top: 100px; border: 1px solid #ccc; padding: 10px">
+      <p><strong>Hi!</strong> I'm a custom container Two</p>
     </div>
   
   </div>
@@ -68,22 +76,39 @@
     });
 
   	console.log('html: '+n.options.id);
-  }
+}
+
+function generateTwo(type) {
+
+    var n = $('div#customContainerTwo').noty({
+        text: type,
+        type: type,
+        dismissQueue: true,
+        layout: 'topCenter',
+        theme: 'default'
+    });
+
+    console.log('html: ' + n.options.id);
+}
 
   function generateAll() {
     generate('alert');
     generate('information');
-    generate('error');
-    generate('warning');
-    generate('notification');
-    generate('success');
-  }
-  
-  $(document).ready(function() {
-  	
-		generateAll();
-  	
-  });
+    generate('error');    
+}
+
+function generateAllTwo() {
+    generateTwo('warning');
+    generateTwo('notification');
+    generateTwo('success');
+}
+
+$(document).ready(function () {
+
+    generateAll();
+    generateAllTwo();
+
+});
   
   </script>
 </body>
