@@ -132,8 +132,6 @@ if (typeof Object.create !== 'function') {
 			// If noty is have a timeout option
 			if (self.options.timeout)
 				self.$bar.delay(self.options.timeout).promise().done(function() { self.close(); });
-            console.log('this');
-            console.log(this);
 			return this;
 
 		}, // end show
@@ -219,8 +217,6 @@ if (typeof Object.create !== 'function') {
 
 		// Renderer creates a new noty
 		var notification = Object.create(NotyObject).init(options);
-        console.log('notification');
-        console.log(notification);
 
 		(notification.options.force) ? $.noty.queue.unshift(notification) : $.noty.queue.push(notification); 
 
@@ -265,8 +261,6 @@ if (typeof Object.create !== 'function') {
         }
 
 		if (length == 0) {
-            console.log('custom-container');
-            console.log(notification.options.custom);
 			if (notification.options.custom) {
 				notification.options.custom.append($(notification.options.layout.container.object).addClass('i-am-new'));
 			} else {
@@ -305,7 +299,6 @@ if (typeof Object.create !== 'function') {
 	// This is for custom container
 	$.fn.noty = function(options) {
 		options.custom = $(this);
-        console.log('custom init ' + options.custom.attr('id'));
 		return $.notyRenderer.init(options);
 	};
 	 
